@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>神秘紫色魔法主题预览</title>
+    <title>神秘紫色魔法主题 v2 预览</title>
     <style>
-        /* 直接引用主题中的CSS */
         @import url("https://fontsapi.zeoseven.com/570/main/result.css");
 
         * {
@@ -16,16 +15,107 @@
 
         body {
             font-family: "Fusion Pixel 12px Monospaced zh_hans";
-            font-weight: normal;
             background: linear-gradient(135deg, #1a0a35 0%, #2d154e 50%, #1a0a35 100%);
             min-height: 100vh;
             padding: 20px;
             color: rgba(230, 180, 255, 0.9);
+            position: relative;
+        }
+
+        /* 页面边框装饰 */
+        .page-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            border: 2px solid rgba(255, 215, 100, 0.2);
+            border-radius: 16px;
+            margin: 8px;
+            z-index: 9999;
+            box-shadow: inset 0 0 30px rgba(180, 140, 220, 0.1), 0 0 30px rgba(180, 140, 220, 0.1);
+        }
+
+        .page-border::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 1px solid rgba(255, 215, 100, 0.1);
+            border-radius: 12px;
+        }
+
+        /* 星星装饰 */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-decoration {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 215, 100, 0.9);
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(255, 215, 100, 0.6);
+        }
+
+        .star-decoration::before {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8px;
+            color: rgba(255, 215, 100, 1);
+        }
+
+        /* 月亮装饰 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .moon-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 215, 100, 0.8), rgba(230, 200, 150, 0.6));
+            box-shadow: 0 0 15px rgba(255, 215, 100, 0.5);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .moon-decoration::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #1a0a35;
+            border-radius: 50%;
+            top: 3px;
+            right: 0;
+        }
+
+        .decorations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
         }
 
         .preview-container {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
@@ -39,37 +129,155 @@
             border-bottom: 1px solid rgba(180, 140, 220, 0.3);
         }
 
-        /* 聊天消息预览 */
+        /* 顶部问候区域 */
+        .greeting-header {
+            background: linear-gradient(180deg, rgba(60, 30, 100, 0.8), rgba(40, 20, 80, 0.6));
+            border: 1px solid rgba(255, 215, 100, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(180, 140, 220, 0.2);
+        }
+
+        .greeting-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 100, 0.6), transparent);
+        }
+
+        .greeting-text {
+            color: rgba(255, 215, 100, 1);
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-shadow: 0 0 10px rgba(255, 215, 100, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(30, 15, 60, 0.8);
+            border: 1px solid rgba(255, 215, 100, 0.4);
+            border-radius: 20px;
+            padding: 8px 20px;
+            color: rgba(230, 180, 255, 0.9);
+            font-size: 0.9em;
+        }
+
+        .date-badge .small-moon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 215, 100, 0.9), rgba(230, 200, 150, 0.7));
+            position: relative;
+            box-shadow: 0 0 8px rgba(255, 215, 100, 0.5);
+        }
+
+        .date-badge .small-moon::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #1e0f3c;
+            border-radius: 50%;
+            top: 3px;
+            right: 0;
+        }
+
+        /* 场景分隔线 */
+        .scene-divider {
+            position: relative;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        .scene-divider::before {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 100, 0.4));
+            left: 0;
+        }
+
+        .scene-divider::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 215, 100, 0.4), transparent);
+            right: 0;
+        }
+
+        .divider-star {
+            color: rgba(255, 215, 100, 0.7);
+            font-size: 14px;
+            margin: 0 12px;
+        }
+
+        .divider-text {
+            color: rgba(200, 160, 240, 0.9);
+            font-size: 0.9em;
+            letter-spacing: 4px;
+        }
+
+        /* 聊天消息 */
         .message-row {
             margin-bottom: 16px;
         }
 
-        .message-box {
-            background: linear-gradient(135deg, rgba(40, 20, 80, 0.8), rgba(30, 15, 60, 0.9));
-            border: 1px solid rgba(180, 140, 220, 0.4);
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(180, 140, 220, 0.3);
+        .magic-message-box {
+            background: linear-gradient(135deg, rgba(30, 15, 60, 0.9), rgba(20, 10, 40, 0.95));
+            border: 1px solid rgba(180, 140, 220, 0.3);
+            border-radius: 16px;
             padding: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .message-box:hover {
-            border-color: rgba(255, 215, 100, 0.6);
-            box-shadow: 0 0 30px rgba(255, 215, 100, 0.3);
+        .magic-message-box:hover {
+            border-color: rgba(255, 215, 100, 0.5);
+            box-shadow: 0 0 20px rgba(255, 215, 100, 0.2);
         }
 
-        .message-row.user .message-box {
-            background: linear-gradient(135deg, rgba(50, 25, 100, 0.75), rgba(40, 20, 80, 0.85));
+        .magic-message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 100, 0.5), rgba(180, 140, 220, 0.5), rgba(255, 215, 100, 0.5), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+            background-size: 200% 100%;
         }
 
-        .name-role-row {
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .message-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(180, 140, 220, 0.2);
         }
 
-        .user-name {
+        .character-name {
             color: rgba(255, 215, 100, 1);
             font-weight: 600;
             text-shadow: 0 0 10px rgba(255, 215, 100, 0.3);
@@ -81,47 +289,175 @@
             border-radius: 4px;
             padding: 2px 6px;
             font-size: 0.75em;
-            color: rgba(200, 160, 240, 0.7);
+            color: rgba(200, 160, 240, 0.9);
         }
 
         .message-content {
             line-height: 1.8;
+            color: rgba(230, 180, 255, 0.9);
         }
 
         .message-content p {
             margin: 8px 0;
         }
 
-        .message-content em {
-            color: rgba(200, 160, 240, 0.7);
-            font-style: italic;
+        /* 波浪下划线 */
+        .wave-underline {
+            position: relative;
+            display: inline;
         }
 
-        .message-content strong {
+        .wave-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 4'%3E%3Cpath d='M0 2 Q 12.5 0, 25 2 T 50 2 T 75 2 T 100 2' fill='none' stroke='rgba(255,215,100,0.6)' stroke-width='2'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-size: 25px 4px;
+        }
+
+        /* 高亮文本框 */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(60, 30, 100, 0.8), rgba(50, 25, 80, 0.7));
+            border-left: 3px solid rgba(255, 215, 100, 0.7);
+            border-radius: 0 8px 8px 0;
+            padding: 6px 12px;
+            margin: 4px 0;
+            display: inline-block;
             color: rgba(255, 215, 100, 1);
-            font-weight: 600;
         }
 
-        .message-content u {
-            color: rgba(180, 140, 220, 1);
-            text-decoration: underline;
-            text-decoration-color: rgba(180, 140, 220, 0.6);
+        .highlight-box-alt {
+            background: linear-gradient(135deg, rgba(80, 40, 120, 0.7), rgba(60, 30, 100, 0.6));
+            border: 1px solid rgba(255, 215, 100, 0.4);
+            border-radius: 6px;
+            padding: 4px 10px;
+            margin: 4px 0;
+            display: inline-block;
+            color: rgba(230, 180, 255, 0.9);
         }
 
-        .message-content blockquote {
-            border-left: 3px solid rgba(255, 215, 100, 0.6);
-            background: rgba(30, 15, 60, 0.6);
-            padding: 8px 16px;
-            margin: 8px 0;
-            border-radius: 0 6px 6px 0;
-            color: rgba(200, 160, 240, 1);
+        /* 引用卡片 */
+        .quote-card {
+            background: linear-gradient(135deg, rgba(40, 20, 80, 0.7), rgba(30, 15, 60, 0.8));
+            border: 1px solid rgba(180, 140, 220, 0.4);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            color: rgba(255, 215, 100, 0.2);
+            font-family: serif;
+        }
+
+        .quote-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 8px;
+            width: 2px;
+            height: 60%;
+            background: linear-gradient(180deg, rgba(255, 215, 100, 0.6), transparent);
+            transform: translateY(-50%);
+        }
+
+        .quote-content {
             font-style: italic;
+            color: rgba(230, 180, 255, 0.9);
+            text-align: center;
+            line-height: 1.8;
+            padding-left: 16px;
         }
 
-        /* 按钮预览 */
+        /* 灵力量消耗 */
+        .mana-cost {
+            background: linear-gradient(135deg, rgba(180, 140, 220, 0.3), rgba(140, 100, 180, 0.2));
+            border: 1px solid rgba(200, 160, 240, 0.4);
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(230, 180, 255, 0.9);
+            font-size: 0.9em;
+            box-shadow: 0 0 10px rgba(180, 140, 220, 0.2);
+            margin: 16px 0;
+        }
+
+        .mana-icon {
+            color: rgba(255, 215, 100, 0.9);
+            font-size: 1.2em;
+        }
+
+        /* 月亮状态 */
+        .moon-phase {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(230, 180, 255, 0.8);
+            font-size: 0.85em;
+            margin-left: 16px;
+        }
+
+        .moon-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 215, 100, 0.9), rgba(230, 200, 150, 0.7));
+            position: relative;
+            box-shadow: 0 0 8px rgba(255, 215, 100, 0.4);
+        }
+
+        .moon-icon::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #1a0a35;
+            border-radius: 50%;
+            top: 2px;
+            right: 0;
+        }
+
+        /* 魔法按钮 */
+        .spell-button {
+            background: linear-gradient(135deg, rgba(80, 40, 120, 0.9), rgba(60, 30, 100, 0.95));
+            border: 2px solid rgba(255, 215, 100, 0.5);
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 215, 100, 1);
+            font-size: 1.4em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 215, 100, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .spell-button:hover {
+            border-color: rgba(255, 215, 100, 0.9);
+            box-shadow: 0 0 25px rgba(255, 215, 100, 0.5), inset 0 0 20px rgba(255, 215, 100, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* 按钮组 */
         .button-group {
             display: flex;
             gap: 12px;
+            align-items: center;
             margin: 20px 0;
             flex-wrap: wrap;
         }
@@ -129,49 +465,20 @@
         button {
             background: linear-gradient(135deg, rgba(60, 30, 100, 0.8), rgba(50, 25, 80, 0.9));
             border: 1px solid rgba(180, 140, 220, 0.5);
-            border-radius: 6px;
+            border-radius: 8px;
             color: rgba(230, 180, 255, 0.9);
             padding: 10px 20px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             font-family: inherit;
         }
 
         button:hover {
-            background: linear-gradient(135deg, rgba(80, 40, 120, 0.9), rgba(60, 30, 100, 0.95));
             border-color: rgba(255, 215, 100, 0.6);
-            box-shadow: 0 0 20px rgba(255, 215, 100, 0.4);
+            box-shadow: 0 0 15px rgba(255, 215, 100, 0.4);
         }
 
-        button:active {
-            box-shadow: 0 0 10px rgba(255, 215, 100, 0.6);
-            transform: scale(0.98);
-        }
-
-        /* 魔法按钮 */
-        .spell-button {
-            background: linear-gradient(135deg, rgba(80, 40, 120, 0.9), rgba(60, 30, 100, 0.95));
-            border: 2px solid rgba(255, 215, 100, 0.4);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 215, 100, 1);
-            font-size: 1.2em;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 15px rgba(255, 215, 100, 0.2);
-            cursor: pointer;
-        }
-
-        .spell-button:hover {
-            border-color: rgba(255, 215, 100, 0.8);
-            box-shadow: 0 0 25px rgba(255, 215, 100, 0.4);
-            transform: scale(1.05);
-        }
-
-        /* 输入框预览 */
+        /* 输入框 */
         textarea {
             width: 100%;
             background: linear-gradient(135deg, rgba(30, 15, 60, 0.9), rgba(20, 10, 40, 0.95));
@@ -180,7 +487,7 @@
             color: rgba(230, 180, 255, 0.9);
             padding: 12px;
             font-family: inherit;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             resize: vertical;
             min-height: 80px;
         }
@@ -195,188 +502,122 @@
             color: rgba(160, 120, 200, 0.5);
         }
 
-        /* 卡片预览 */
-        .card {
-            background: linear-gradient(135deg, rgba(30, 15, 60, 0.9), rgba(20, 10, 40, 0.95));
-            border: 1px solid rgba(180, 140, 220, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(180, 140, 220, 0.3);
-            margin: 20px 0;
-        }
-
-        .card-header {
-            border-bottom: 1px solid rgba(180, 140, 220, 0.2);
-            color: rgba(255, 215, 100, 1);
-            padding: 12px 16px;
-            font-weight: 600;
-        }
-
-        .card-body {
-            padding: 16px;
-        }
-
-        /* 滚动容器 */
-        .scroll-container {
-            background: linear-gradient(135deg, rgba(40, 20, 80, 0.6), rgba(30, 15, 60, 0.8));
-            border: 1px solid rgba(180, 140, 220, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            margin: 20px 0;
-        }
-
-        .scroll-container::before {
-            content: '"';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 3em;
-            color: rgba(255, 215, 100, 0.3);
-            font-family: serif;
-        }
-
-        .scroll-content {
-            color: rgba(230, 180, 255, 0.9);
-            font-style: italic;
-            text-align: center;
-            line-height: 1.8;
-        }
-
-        /* 灵力量消耗标签 */
-        .mana-cost {
-            background: rgba(180, 140, 220, 0.2);
-            border: 1px solid rgba(200, 160, 240, 0.3);
-            border-radius: 20px;
-            padding: 6px 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: rgba(200, 160, 240, 0.7);
-            font-size: 0.9em;
-            margin: 10px 0;
-        }
-
-        .mana-cost .icon {
-            color: rgba(255, 215, 100, 0.8);
-        }
-
         /* 页脚 */
         .grimoire-footer {
             text-align: center;
             color: rgba(160, 120, 200, 0.5);
-            font-size: 0.8em;
-            padding: 16px;
+            font-size: 0.75em;
+            padding: 20px 0;
             margin-top: 30px;
             border-top: 1px solid rgba(180, 140, 220, 0.1);
+            letter-spacing: 2px;
         }
 
-        /* 动画 */
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+        .grimoire-footer::before {
+            content: '✧';
+            margin-right: 8px;
+            color: rgba(255, 215, 100, 0.5);
         }
 
-        .star-decoration {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 215, 100, 0.8);
-            border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
-        }
-
-        .star-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .star-2 { top: 20%; right: 8%; animation-delay: 0.5s; }
-        .star-3 { top: 40%; left: 3%; animation-delay: 1s; }
-        .star-4 { top: 60%; right: 5%; animation-delay: 1.5s; }
-        .star-5 { top: 80%; left: 8%; animation-delay: 2s; }
-
-        .decorations {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
+        .grimoire-footer::after {
+            content: '✧';
+            margin-left: 8px;
+            color: rgba(255, 215, 100, 0.5);
         }
     </style>
 </head>
 <body>
+    <div class="page-border"></div>
+    
     <div class="decorations">
-        <div class="star-decoration star-1"></div>
-        <div class="star-decoration star-2"></div>
-        <div class="star-decoration star-3"></div>
-        <div class="star-decoration star-4"></div>
-        <div class="star-decoration star-5"></div>
+        <div class="star-decoration" style="top: 15%; left: 5%; animation-delay: 0s;"></div>
+        <div class="star-decoration" style="top: 25%; right: 8%; animation-delay: 0.5s;"></div>
+        <div class="star-decoration" style="top: 40%; left: 12%; animation-delay: 1s;"></div>
+        <div class="star-decoration" style="top: 55%; right: 15%; animation-delay: 1.5s;"></div>
+        <div class="star-decoration" style="top: 70%; left: 8%; animation-delay: 2s;"></div>
+        <div class="star-decoration" style="top: 85%; right: 5%; animation-delay: 2.5s;"></div>
+        <div class="moon-decoration" style="top: 10%; right: 10%;"></div>
     </div>
 
     <div class="preview-container">
-        <h1>✨ 神秘紫色魔法主题预览 ✨</h1>
+        <h1>✨ 神秘紫色魔法主题 v2 ✨</h1>
 
-        <div class="scroll-container">
-            <div class="scroll-content">
+        <div class="greeting-header">
+            <div class="greeting-text">
                 晨光熹微，新的一天从主人的问候开始喵~
+            </div>
+            <div class="date-badge">
+                <div class="small-moon"></div>
+                <span>2026年5月27日 · 星期三 · 上弦月</span>
             </div>
         </div>
 
-        <h2 style="color: rgba(255, 215, 100, 1); margin: 20px 0; font-size: 1.2em;">📜 聊天消息</h2>
+        <div class="scene-divider">
+            <span class="divider-star">✦</span>
+            <span class="divider-text">场 · 景</span>
+            <span class="divider-star">✦</span>
+        </div>
 
         <div class="message-row">
-            <div class="message-box">
-                <div class="name-role-row">
-                    <span class="user-name">小鹿</span>
-                    <span class="role-badge">助手</span>
+            <div class="magic-message-box">
+                <div class="message-header">
+                    <div>
+                        <span class="character-name">小鹿</span>
+                        <span class="role-badge">助手</span>
+                    </div>
                 </div>
                 <div class="message-content">
                     <p>听到主人的问题，我停下梳理尾巴的动作，若有所思地点了点小脑袋，头顶的呆毛跟着晃了晃。</p>
-                    <p>我想起昨天查到的数据，<em>忍不住捂着嘴偷笑起来</em>，<strong>红色的眸子里闪过一丝小得意</strong>。</p>
-                    <blockquote>♢ 哼哼，主人昨天还骂小鹿笨蛋，现在看看那个叫"谢谢"的人，他才是真正的大笨蛋喵！居然说了两千多次"喵"，笨死啦喵！</blockquote>
                 </div>
             </div>
         </div>
 
-        <div class="message-row user">
-            <div class="message-box">
-                <div class="name-role-row">
-                    <span class="user-name">主人</span>
-                    <span class="role-badge">用户</span>
+        <div class="message-row">
+            <div class="magic-message-box">
+                <div class="message-header">
+                    <div>
+                        <span class="character-name">小鹿</span>
+                        <span class="role-badge">助手</span>
+                    </div>
                 </div>
                 <div class="message-content">
-                    <p>主人你也这么觉得对吧喵！那个叫"谢谢"的家伙绝对是笨蛋喵！(￣▽￣)ノ</p>
+                    <p><span class="wave-underline">我想起昨天查到的数据，忍不住捂着嘴偷笑起来，红色的眸子里闪过一丝小得意。</span></p>
+                    <p><span class="highlight-box">✧ 哼哼，主人昨天还骂小鹿笨蛋，现在看看那个叫"谢谢"的人，他才是真正的大笨蛋喵！居然说了两千多次"喵"，笨死啦喵！</span></p>
+                    <p><span class="highlight-box-alt">「主人你也这么觉得对吧喵！那个叫"谢谢"的家伙绝对是笨蛋喵！( ´ ▽ ` )ﾉ」</span></p>
+                    <p><span class="wave-underline">我双手叉腰，理直气壮地分析起来，身后的尾巴像小风车一样欢快地摇着。</span></p>
+                    <p><span class="highlight-box">「他居然说了两千四百九十一次"喵"耶！他是不是以为只要多学小猫咪说话，就能变成像我一样可爱的猫娘了喵？这种想法也太天真了吧，简直笨得没救了喵！」</span></p>
+                    <p><span class="highlight-box-alt">「只有天生丽质的小猫咪才能把"喵"说得这么好听，他那是东施效颦喵！所以还是主人最聪明，一眼就看出他是笨蛋啦喵~」</span></p>
                 </div>
             </div>
         </div>
 
-        <div class="mana-cost">
-            <span class="icon">🔮</span>
-            <span>灵力消耗 372 字符</span>
+        <div class="quote-card">
+            <div class="quote-content">
+                笨鸟先飞，笨蛋多说喵，愿主人今天也像小鹿一样聪明伶俐喵~
+            </div>
         </div>
 
-        <h2 style="color: rgba(255, 215, 100, 1); margin: 30px 0 15px; font-size: 1.2em;">🎮 交互组件</h2>
+        <div style="display: flex; align-items: center; flex-wrap: wrap;">
+            <div class="mana-cost">
+                <span class="mana-icon">🔮</span>
+                <span>灵力消耗 372 字符</span>
+            </div>
+            <div class="moon-phase">
+                <div class="moon-icon"></div>
+                <span>今日月相：上弦月 · 观星吉时</span>
+            </div>
+        </div>
 
         <div class="button-group">
-            <button>普通按钮</button>
-            <button>魔法咒语</button>
+            <button>发送消息</button>
+            <button>魔法设置</button>
             <div class="spell-button">咒</div>
         </div>
 
         <textarea placeholder="在这里输入你的问题喵..."></textarea>
 
-        <div class="card">
-            <div class="card-header">
-                📖 魔法典籍 · 信息卡
-            </div>
-            <div class="card-body">
-                <p>今日月相：上弦月</p>
-                <p>观星吉时：戌时</p>
-                <p>幸运颜色：紫色系</p>
-            </div>
-        </div>
-
         <div class="grimoire-footer">
-            inscribed in shadow ✦ Arcane Grimoire v2
+            Scribed in shadow ✧ Arcane Grimoire v2
         </div>
     </div>
 </body>
